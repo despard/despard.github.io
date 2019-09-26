@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>量化交易初探 | Yezzy! Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">量化交易初探</h1><a id="logo" href="/.">Yezzy! Blog</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">量化交易初探</h1><div class="post-meta">Sep 26, 2019<span> | </span><span class="category"><a href="/categories/Quant/">Quant</a></span></div><div class="post-content"><p>从今天开始，准备开启量化交易学习之路，主要出发点是多扩展自己的兴趣，同时本身作为一个入门级投资者（jiucai），希望学习量化交易提升自己的投资水平。</p>
+<p>由于本人工作原因不能进行a股交易，所以市场选择港股市场，听说过米筐、聚筐等量化平台，但查资料好像都不支持港股的交易，富途应该是支持港股交易，还没形成平台。艰难选择之下，还是选用了futu open api，支持行情和交易接口。</p>
+<p>作为入门，先学习使用futu的开放平台吧。</p>
+<h2 id="FUTU-Open-API"><a href="#FUTU-Open-API" class="headerlink" title="FUTU Open API"></a>FUTU Open API</h2><p>直接看官方<a href="https://www.futu5.com/faq/topic2488" target="_blank" rel="noopener">安装指南</a> 即可</p>
+<p>QQ交流群：108534288</p>
+<p>有几个坑：</p>
+<ol>
+<li>anaconda好像下载不了，需要翻墙</li>
+<li>官方推荐的pyCharm也有下载不了的问题 。。</li>
+</ol>
+<p>先不管，先把futuquant和futuOpenD安装吧</p>
+<h2 id="入门资料"><a href="#入门资料" class="headerlink" title="入门资料"></a>入门资料</h2><p>网上的资料太杂了，没有人指导感觉很难入手，知乎上看到一篇<a href="https://www.zhihu.com/question/26594258" target="_blank" rel="noopener">入门介绍</a>里面有些资料可以参考一下</p>
+<p>先从简单开始吧。</p>
+<h3 id="均线理论"><a href="#均线理论" class="headerlink" title="均线理论"></a>均线理论</h3><ul>
+<li><a href="http://www.sohu.com/a/115578694_465532" target="_blank" rel="noopener">均线理论精髓</a>，这里提到几点：</li>
+</ul>
+<blockquote>
+<p>  当均线向上，价格在均线之上变动时，永远是开仓买入与守仓阶段。当均线向下，价格在均线之下变动时，永远是开仓卖出与守仓阶段。当均线向上，价格在均线之下变动，或均线向下，价格在均线之上变动时，是平仓观望阶段.</p>
+<p>在标准的上升通道中日K线位于5日均线的上方、5日均线在10日均线的上方、10 日均线在20 日上方这也就是我们经常讲到的价格下跌受到均线系统的支撑；而在标准的下跌通道中情形正好相反也就是我们经常讲到的价格上涨受到均线系统的压制。</p>
+<p>五日均线属于超短期操盘的指标。其操作手段也都是以超短或短线为主</p>
+<p>十日均线比较重要，在十日均线以上买入，在价格跌破十日均线卖出。</p>
+<p>价格在十日均线上的技术意义是该股正在上升，因此在十日均线上买入商品赢面较大(90%)，而如有的投资者专在十日均线下买入的赢面就很小(10%)。如果买错了，没几天就跌破十日均线，你也必须斩仓或平仓了结。也就是平仓要坚决。其实此简易十日均线法背后蕴含不少诀窍。<strong><em>价格向上突破10日均线是重要买入时机。</em></strong></p>
+<p>当价格在10 日均线之上运行时，我们就认为价格的趋势向上，价格还会上涨，而当价格在10均线之下运行时，我们就认为价格的趋势向下，价格还会下跌。因此，10 日移动平均线是指导我们分析、判断趋势并用于实际操作时的一个非常重要的客观标准。</p>
+</blockquote>
+<ul>
+<li><p>MACD黄金交叉</p>
+<p>  百度百科的解释</p>
+<blockquote>
+<pre><code>均线“黄金交叉”（Golden Cross），就是指***上升中的短期移动平均线由下而上穿过上升的长期移动平均线的交叉***，这个时候压力线被向上突破，表示股价将继续上涨，行情看好。均线黄金交叉指股价向上突破压力。</code></pre></blockquote>
+<p>  图解</p>
+<p>  <img src="https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=f5834c306c380cd7f213aabfc02dc651/a5c27d1ed21b0ef45e282bded4c451da80cb3e69.jpg" alt="黄金交叉"></p>
+</li>
+</ul>
+<pre><code>与之对应的是死亡交叉
+
+&gt;     下降中的短期移动平均线由上而下穿过下降的长期移动平均线，这个时候支撑线被向下突破，表示股价将继续下落，行情看跌。</code></pre><h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><p>  作为本菜鸟的量化交易学习第一步，实践上述的均线理论。</p>
+<p>  工欲善其事，必先利其器，一个好的学习体验取决于工具的方便程度，首先要确定一个基本框架。</p>
+<p>  <strong>行情API</strong>：采用富途的</p>
+<p>  <strong>回测框架</strong>：看了一下，国内的支持港股的框架只有rqalpha + futu mod  </p>
+<p>  下面开始实践！</p>
+<ol>
+<li>富途接口的使用文档：<a href>https://github.com/FutunnOpen/futuquant</a></li>
+<li>视频教程：<a href>https://live.futunn.com/course/1056</a></li>
+</ol>
+<h4 id="rqalpha-futu-mod-的使用"><a href="#rqalpha-futu-mod-的使用" class="headerlink" title="rqalpha + futu mod 的使用"></a>rqalpha + futu mod 的使用</h4><p>rqalpha文档：<a href>http://rqalpha.io/zh_CN/latest/</a></p>
+<p>rqalpha对接futu mod：<a href>https://github.com/FutunnOpen/rqalpha-mod-futu</a></p>
+<p>futuquant提供了回测框架vnpy。。<a href="https://github.com/vnpy/vnpy/wiki/CTA%E7%AD%96%E7%95%A5%E6%A8%A1%E5%9D%97%E7%AD%96%E7%95%A5%E5%9B%9E%E6%B5%8B" target="_blank" rel="noopener">回测介绍</a></p>
+<p>futu提供的vnpy回测框架和futu推荐的pyCharm的大坑</p>
+<ul>
+<li><p>运行时会提示需要安装PyQt，mac的brew install qt会默认安装qt的最新版，最新版时5.x版本，然而vnpy只支持qt4版本</p>
+<p>解决办法是采用vnpy<a href="https://github.com/vnpy/vnpy/wiki/MacOS%E5%AE%89%E8%A3%85" target="_blank" rel="noopener">官方提供</a>的安装方法：<br><code>$ brew install cartr/qt4/pyqt # 因为项目要求pyqt4，当前homebrew会安装pyqt5</code></p>
+</li>
+<li><p>假如安装后然后提示错误<code>qtpy.PythonQtError: No Qt bindings could be found</code></p>
+<p>这时候要看下pyCharm配置的python环境是哪一个了。</p>
+</li>
+<li><p>安装qtpy，这个和pyqt名字很像，但实际不一样。</p>
+</li>
+<li><p>python2 和python3的queue包名不一样，python2是Queue，<strong>Q是大写</strong>，python3是queue，<strong>q是小写</strong>。vnpy号称只支持python2.7，然而写成<code>import queue</code> 汗～<br><code>&gt;&gt;&gt; import queue
+Traceback (most recent call last):
+File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+ImportError: No module named queue</code></p>
+</li>
+</ul>
+<h4 id="vnpy-回测框架"><a href="#vnpy-回测框架" class="headerlink" title="vnpy 回测框架"></a>vnpy 回测框架</h4><p>   前面安装好环境后，运行示例策略，样例中的策略：<a href="https://zhuanlan.zhihu.com/p/35413921" target="_blank" rel="noopener">kk通道</a></p>
+<ol>
+<li><p>启动mongodb</p>
+</li>
+<li><p>导出历史行情数据，示例中已经导出了00700的历史分钟行情</p>
+</li>
+<li><p>导入行情数据到mongodb，运行</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python loadCsv.py</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="4">
+<li><p>运行回测</p>
+<pre><code><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python runBacktesting.py</span><br></pre></td></tr></table></figure></code></pre></li>
+</ol>
+<ol start="5">
+<li><p>输出结果,<a href="https://github.com/vnpy/vnpy/wiki/CTA%E7%AD%96%E7%95%A5%E6%A8%A1%E5%9D%97%E7%AD%96%E7%95%A5%E5%9B%9E%E6%B5%8B#%E8%AF%BB%E6%87%82%E5%9B%9E%E6%B5%8B%E6%8A%A5%E5%91%8A" target="_blank" rel="noopener">读懂报告</a></p>
+<blockquote>
+<p>  2018-07-20 16:47:37.032032    第一笔交易：    2017-11-13 16:00:00<br>  2018-07-20 16:47:37.032051    最后一笔交易：    2017-12-27 16:00:00<br>  2018-07-20 16:47:37.032092    总交易次数：    101.0<br>  2018-07-20 16:47:37.032111    总盈亏：    4,373.24<br>  2018-07-20 16:47:37.032133    最大回撤:     -12,276.85<br>  2018-07-20 16:47:37.032149    平均每笔盈利：    43.3<br>  2018-07-20 16:47:37.032160    平均每笔滑点：    120.0<br>  2018-07-20 16:47:37.032171    平均每笔佣金：    7.2<br>  2018-07-20 16:47:37.032182    胜率        35.64%<br>  2018-07-20 16:47:37.032192    盈利交易平均值    1,332.77<br>  2018-07-20 16:47:37.032203    亏损交易平均值    -670.87<br>  2018-07-20 16:47:37.032213    盈亏比：    1.99</p>
+</blockquote>
+</li>
+</ol>
+<h5 id="换一只股票尝试"><a href="#换一只股票尝试" class="headerlink" title="换一只股票尝试"></a>换一只股票尝试</h5><p>   感性认识后，换一只股票试下，股票代码HK.00268</p>
+<p>   首先，导出该股的每分钟行情历史.需要启动futuopenD 服务，见官方<a href="https://futunnopen.github.io/futuquant/setup/FutuOpenDGuide.html" target="_blank" rel="noopener">详细使用说明</a>。<br>   启动服务后，查询历史行情需要先导出历史数据，直接运行<code>FutuHistData</code> 程序获取，此处导出时间比较久。</p>
+<p>  <strong>关于vnpy，据说此大神有<a href="https://zhuanlan.zhihu.com/p/31606798" target="_blank" rel="noopener">学习教程</a>。不妨看下。</strong></p>
+</div><div class="tags"><a href="/tags/quant/">quant</a><a href="/tags/vnpy/">vnpy</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Quant/">Quant</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/quant/" style="font-size: 15px;">quant</a> <a href="/tags/vnpy/" style="font-size: 15px;">vnpy</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/09/26/quant-first-practice/">量化交易初探</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Yezzy! Blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
