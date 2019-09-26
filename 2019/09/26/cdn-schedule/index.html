@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>常见的动态调度算法 | Yezzy! Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">常见的动态调度算法</h1><a id="logo" href="/.">Yezzy! Blog</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">常见的动态调度算法</h1><div class="post-meta">Sep 26, 2019<span> | </span><span class="category"><a href="/categories/CDN/">CDN</a></span></div><div class="post-content"><p>常见的几种cdn动态调度算法</p>
+<a id="more"></a>
+<h2 id="基于全局流量的调度算法"><a href="#基于全局流量的调度算法" class="headerlink" title="基于全局流量的调度算法"></a>基于全局流量的调度算法</h2><p>对于全局流量调度系统而言，设计目标有两个：</p>
+<ol>
+<li>提升用户体验</li>
+<li>节约系统成本</li>
+</ol>
+<p>这两个目标本身都包含很多的方面，但提取其最核心的要求，分别对应</p>
+<ol>
+<li>降低用户访问CDN节点的延迟</li>
+<li>降低CDN节点的带宽成本</li>
+</ol>
+<h2 id="基于负载的调度算法"><a href="#基于负载的调度算法" class="headerlink" title="基于负载的调度算法"></a>基于负载的调度算法</h2><p><strong>目标</strong>：特定区域的用户访问一组服务节点，保证按节点的负载能力均衡分配。</p>
+<p><strong>原理</strong>：基于负反馈算法，当输出值与期望值出现偏差，系统给出一个控制量对偏差修正，使得输出值无限接近期望值</p>
+<p><img src="./post-schedule.jpg" alt></p>
+<ul>
+<li>当输出大于期望值时，偏差为正，这时给系统一个负的控制量u（减小系统输出）</li>
+<li>当输出小于期望值时，偏差为负，这时给系统一个正的控制量u（增大系统输出）</li>
+</ul>
+<p>应用到基于负载的调度算法中来，当分配给某个节点的流量同其负载能力相比偏小时（偏差为负），我们应该增大分配给该节点的流量，反之，则减小分配给该节点的流量。</p>
+<p><strong>实现</strong>：</p>
+<ol>
+<li>获取实时QoS数据</li>
+<li>根据当前流量和最大负载流量值计算负反馈因子</li>
+<li>根据负反馈因子计算流量分配策略</li>
+</ol>
+<p><img src="./loadbalance-schedule.jpg" alt></p>
+<h2 id="基于链路的调度算法"><a href="#基于链路的调度算法" class="headerlink" title="基于链路的调度算法"></a>基于链路的调度算法</h2><p><strong>目标</strong>：保证用户访问服务的延迟在给定的阈值之内，逐步优化，不能保证是最优。</p>
+<p><strong>原理</strong>：将链路延迟超过阈值的流量调度到链路延迟较好的链路上去，以确保所有区域的用户访问链路延迟都较好。需要获取的数据：</p>
+<ul>
+<li>各个节点的当前负载、最大可用负载</li>
+<li>特定区域访问CDN节点的链路延迟</li>
+</ul>
+<p>目前链路探测的最主要数据有ping time和ping命令的丢包率，而区域和节点之间的链路信息则是通过综合部署在指定区域的所有Aliprobe探测客户端获取的访问指定节点的链路信息统计、综合得到的。</p>
+<p><strong>实现</strong>：</p>
+<p><img src="./link-schedule.jpg" alt></p>
+<h2 id="基于成本的调度算法"><a href="#基于成本的调度算法" class="headerlink" title="基于成本的调度算法"></a>基于成本的调度算法</h2><p><strong>目标</strong>：系统带宽成本最低</p>
+<p><strong>原理</strong>：贪婪法分配，首先跑满保底带宽，超过保底部分优先分配带宽成本最低的节点。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><img src="./summer.png" alt></p>
+</div><div class="tags"><a href="/tags/CDN调度/">CDN调度</a></div><div class="post-nav"><a class="next" href="/2019/09/26/quant-first-practice/">量化交易初探</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CDN/">CDN</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Quant/">Quant</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/CDN调度/" style="font-size: 15px;">CDN调度</a> <a href="/tags/quant/" style="font-size: 15px;">quant</a> <a href="/tags/vnpy/" style="font-size: 15px;">vnpy</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/09/26/cdn-schedule/">常见的动态调度算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/26/quant-first-practice/">量化交易初探</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Yezzy! Blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
