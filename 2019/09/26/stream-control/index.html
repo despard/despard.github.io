@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>限流算法 | Yezzy! Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">限流算法</h1><a id="logo" href="/.">Yezzy! Blog</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">限流算法</h1><div class="post-meta">Sep 26, 2019<span> | </span><span class="category"><a href="/categories/后端/">后端</a></span></div><div class="post-content"><p>简单总结一下网络传输中的常见流量控制算法：漏桶算法和令牌桶算法</p>
+<a id="more"></a>
+
+<h4 id="漏桶算法"><a href="#漏桶算法" class="headerlink" title="漏桶算法"></a>漏桶算法</h4><p><img src="./loutong.png" alt></p>
+<p>一个形象的解释是：</p>
+<ul>
+<li>水（请求）从上方倒入水桶，从水桶下方流出（被处理）；</li>
+<li>来不及流出的水存在水桶中（缓冲），以固定速率流出；</li>
+<li>水桶满后水溢出（丢弃）。</li>
+</ul>
+<p>这个算法的核心是：<strong>缓存请求、匀速处理、多余的请求直接丢弃。</strong></p>
+<h4 id="令牌桶算法"><a href="#令牌桶算法" class="headerlink" title="令牌桶算法"></a>令牌桶算法</h4><p><img src="./tokentong.png" alt></p>
+<p>算法思想是：</p>
+<ul>
+<li>令牌以固定速率产生，并缓存到令牌桶中；</li>
+<li>令牌桶放满时，多余的令牌被丢弃；</li>
+<li>请求要消耗等比例的令牌才能被处理；</li>
+<li>令牌不够时，请求被缓存。<br>相比漏桶算法，令牌桶算法不同之处在于它不但有一只“桶”，还有个队列，这个桶是用来存放令牌的，队列才是用来存放请求的。</li>
+</ul>
+<p>从作用上来说，漏桶和令牌桶算法最明显的区别就是是否允许<strong>突发流量(burst)</strong>的处理，漏桶算法能够<strong>强行限制数据的实时传输（处理）速率</strong>，对突发流量不做额外处理；而令牌桶算法能够<strong>在限制数据的平均传输速率的同时允许某种程度的突发传输。</strong></p>
+<p>算法描述的另一个版本：<br><img src="./tokentong2.png" alt></p>
+<ul>
+<li><p>假如用户配置的平均发送速率为r，则每隔1/r秒一个令牌被加入到桶中（每秒会有r个令牌放入桶中）；</p>
+</li>
+<li><p>假设桶中最多可以存放b个令牌。如果令牌到达时令牌桶已经满了，那么这个令牌会被丢弃；</p>
+</li>
+<li><p>当一个n个字节的数据包到达时，就从令牌桶中删除n个令牌（不同大小的数据包，消耗的令牌数量不一样），并且数据包被发送到网络；</p>
+</li>
+<li><p>如果令牌桶中少于n个令牌，那么不会删除令牌，并且认为这个数据包在流量限制之外（n个字节，需要n个令牌。该数据包将被缓存或丢弃）；</p>
+</li>
+<li><p>算法允许最长b个字节的突发，但从长期运行结果看，数据包的速率被限制成常量r。对于在流量限制外的数据包可以以不同的方式处理：（1）它们可以被丢弃；（2）它们可以排放在队列中以便当令牌桶中累积了足够多的令牌时再传输；（3）它们可以继续发送，但需要做特殊标记，网络过载的时候将这些特殊标记的包丢弃。</p>
+</li>
+</ul>
+<p>Nginx按请求速率限速模块使用的是漏桶算法，即能够强行保证请求的实时处理速度不会超过设置的阈值。</p>
+</div><div class="tags"><a href="/tags/限流算法/">限流算法</a></div><div class="post-nav"><a class="next" href="/2019/09/26/cdn-schedule/">常见的动态调度算法</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yoursite.com"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CDN/">CDN</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Quant/">Quant</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/后端/">后端</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/CDN调度/" style="font-size: 15px;">CDN调度</a> <a href="/tags/限流算法/" style="font-size: 15px;">限流算法</a> <a href="/tags/quant/" style="font-size: 15px;">quant</a> <a href="/tags/vnpy/" style="font-size: 15px;">vnpy</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/09/26/stream-control/">限流算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/26/cdn-schedule/">常见的动态调度算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/26/quant-first-practice/">量化交易初探</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Yezzy! Blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
